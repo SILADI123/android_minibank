@@ -3,7 +3,11 @@ package ru.nazarov.minibank.presentation
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -78,6 +82,19 @@ fun RegistrationContent() {
                 singleLine = true,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
+
+            Button(
+                onClick = {},
+                shape = RoundedCornerShape(4.dp),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .padding(vertical = 8.dp, horizontal = 40.dp)
+                    .height(50.dp)
+            ) {
+                Text(
+                    text = "Создать аккаунт"
+                )
+            }
         }
     }
 }
