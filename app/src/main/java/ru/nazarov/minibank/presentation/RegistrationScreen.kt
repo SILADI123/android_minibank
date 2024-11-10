@@ -55,6 +55,7 @@ fun RegistrationContent() {
                 label = {
                     Text("Введите логин")
                 },
+                singleLine = true,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
 
@@ -64,6 +65,7 @@ fun RegistrationContent() {
                 label = {
                     Text("Введите пароль")
                 },
+                singleLine = true,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
 
@@ -73,6 +75,7 @@ fun RegistrationContent() {
                 label = {
                     Text("Введите пароль еще раз")
                 },
+                singleLine = true,
                 modifier = Modifier.padding(vertical = 8.dp)
             )
         }
