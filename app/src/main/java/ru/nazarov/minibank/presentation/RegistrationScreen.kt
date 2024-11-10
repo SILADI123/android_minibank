@@ -10,30 +10,34 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.Button
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Scaffold
-import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.text.TextRange
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
+import ru.nazarov.minibank.data.model.RegisterUserRequest
 
 @Composable
 fun RegistrationScreen(
     viewModel: RegistrationViewModel = hiltViewModel()
 ) {
-    RegistrationContent()
+    RegistrationContent(
+        userState = viewModel.userState,
+        updateUserState = { newUserState ->
+            viewModel.updateUserState(newUserState)
+        },
+        createAccount = viewModel::onClickCreateAccountButton
+    )
 }
 
 @Composable
-fun RegistrationContent() {
+fun RegistrationContent(
+    userState: RegisterUserDomainModel,
+    updateUserState: (RegisterUserDomainModel) -> Unit,
+    createAccount: () -> Unit,
+) {
     Scaffold(
         modifier = Modifier.padding(16.dp)
     ) { contentPadding ->
@@ -44,9 +48,9 @@ fun RegistrationContent() {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            var loginText by rememberSaveable { mutableStateOf("") }
-            var passwordText by rememberSaveable { mutableStateOf("") }
-            var againPasswordText by rememberSaveable { mutableStateOf("") }
+//            var loginText by rememberSaveable { mutableStateOf("") }
+//            var passwordText by rememberSaveable { mutableStateOf("") }
+//            var againPasswordText by rememberSaveable { mutableStateOf("") }
 
             Text(
                 text = "Регистрация",
@@ -54,8 +58,46 @@ fun RegistrationContent() {
             )
 
             OutlinedTextField(
-                value = loginText,
-                onValueChange = { loginText = it },
+                value = userState.firstName,
+                onValueChange = { newFirstName ->
+                    updateUserState(userState.copy(firstName = newFirstName))
+                },
+                label = {
+                    Text("Введите имя")
+                },
+                singleLine = true,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+
+            OutlinedTextField(
+                value = userState.lastName,
+                onValueChange = { newLastName ->
+                    updateUserState(userState.copy(lastName = newLastName))
+                },
+                label = {
+                    Text("Введите фамилию")
+                },
+                singleLine = true,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+
+            OutlinedTextField(
+                value = userState.age,
+                onValueChange = { newAge ->
+                    updateUserState(userState.copy(age = newAge))
+                },
+                label = {
+                    Text("Введите возраст")
+                },
+                singleLine = true,
+                modifier = Modifier.padding(vertical = 8.dp)
+            )
+
+            OutlinedTextField(
+                value = userState.username,
+                onValueChange = { newUsername ->
+                    updateUserState(userState.copy(username = newUsername))
+                },
                 label = {
                     Text("Введите логин")
                 },
@@ -64,8 +106,10 @@ fun RegistrationContent() {
             )
 
             OutlinedTextField(
-                value = passwordText,
-                onValueChange = { passwordText = it },
+                value = userState.password,
+                onValueChange = { newUserPassword ->
+                    updateUserState(userState.copy(password = newUserPassword))
+                },
                 label = {
                     Text("Введите пароль")
                 },
@@ -74,8 +118,10 @@ fun RegistrationContent() {
             )
 
             OutlinedTextField(
-                value = againPasswordText,
-                onValueChange = { againPasswordText = it },
+                value = userState.confirmPassword,
+                onValueChange = { newConfirmPassword ->
+                    updateUserState(userState.copy(confirmPassword = newConfirmPassword))
+                },
                 label = {
                     Text("Введите пароль еще раз")
                 },
@@ -84,7 +130,9 @@ fun RegistrationContent() {
             )
 
             Button(
-                onClick = {},
+                onClick = {
+                    createAccount()
+                },
                 shape = RoundedCornerShape(4.dp),
                 modifier = Modifier
                     .fillMaxWidth()
@@ -102,5 +150,9 @@ fun RegistrationContent() {
 @Preview
 @Composable
 private fun RegistrationPreview() {
-    RegistrationContent()
+    RegistrationContent(
+        userState = RegisterUserDomainModel.defaultState,
+        updateUserState = {},
+        createAccount = {}
+    )
 }

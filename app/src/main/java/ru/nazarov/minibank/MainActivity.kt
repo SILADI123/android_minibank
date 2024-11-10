@@ -19,6 +19,7 @@ import ru.nazarov.minibank.presentation.theme.MiniBankTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        (applicationContext as App).applicationGraph.inject(this)
         enableEdgeToEdge()
         setContent {
             MiniBankTheme {
